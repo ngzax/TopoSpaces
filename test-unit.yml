@@ -1,0 +1,25 @@
+runner: console
+console_options:
+  arguments: --verbose=normal
+  color_scheme: new_and_improved
+color_schemes:
+  new_and_improved:
+    success:
+      name: green
+      bold: false
+    error:
+      name: magenta
+      bold: false
+    failure:
+      name: red
+      bold: true
+    notification:
+      name: cyan
+      bold: false
+    pending:
+      name: yellow
+      bold: false
+    omission:
+      name: white
+      bold: true
+
