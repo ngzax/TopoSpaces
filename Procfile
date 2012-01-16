@@ -1,1 +1,1 @@
-web: bundle exec rackup -s thin -p 8888
+web: bundle exec rackup -s thin
