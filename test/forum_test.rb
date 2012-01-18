@@ -1,21 +1,29 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-require 'minitest/spec'
-require 'minitest/autorun'
+def app
+  TopoSpace
+end
 
-include Rack::Test::Methods
-
-def app; TopoSpace; end
+Forum.instance_eval {
+  def All
+    f = Array.new
+    f << {A: 0}
+    f << {B: 0}
+    h = {"forums" => f}
+    h.to_json
+  end
+}
 
 describe "Forums" do
   it "Can return a list of Forums at /f" do
     get "/f"
+    assert last_response.ok?
     last_response.wont_be_empty
   end
   
-  it "Can return a list of Forums at /f" do
+  it "Returns a list of Forums as JSON" do
     get "/f"
-    assert_equal "[{\"A\":0},{\"B\":0}]", last_response.body
+    last_response.body.must_include "{\"forums\":[{\"A\":0},{\"B\":0}]}"
   end
 end
 

@@ -28,11 +28,12 @@ The server is a ruby bundle. Get the bundler gem and then use it to get everythi
 	gem install bundler
 	bundle install
 
-Our initial implementation is a as Sinatra server.
+Our initial implementation is a as Sinatra server which we run with the aid of foreman and rerun.
+rerun makes it so the running app is reloaded with each change, a great help in development
 
-Launch the server with this bundle command:
+Launch the server with this command:
 
-	bundle exec rackup -s thin -p 8888
+	rerun foreman start
 
 Now go to your browser and browse your new wiki:
 

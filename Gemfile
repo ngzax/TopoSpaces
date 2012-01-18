@@ -1,8 +1,10 @@
 source :rubygems
 
+gem "foreman"
 gem "haml"
 gem "json"
 gem "rake"
+gem "rerun"
 gem "sass"
 gem "sinatra", '1.2.6'
 gem "thin"
@@ -20,6 +22,7 @@ group :test, :development do
   gem "awesome_print"
   gem "term-ansicolor"
   gem "turn"
+  gem "watchr"
 end
 
 group :test do

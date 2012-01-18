@@ -1,28 +1,35 @@
 require "rubygems"
 
 require "bundler/setup"
+require "haml"
 require "json"
 require "sinatra"
 
-#$LOAD_PATH.unshift(File.dirname(__FILE__))
-#SINATRA_ROOT = File.expand_path(File.dirname(__FILE__))
-#APP_ROOT = File.expand_path(File.join(SINATRA_ROOT, "..", ".."))
+C_ROOT = File.join(File.dirname(__FILE__), "community")
 
 class TopoSpace < Sinatra::Base
+
+  set :haml,   :format => :html5
+  set :static, true
+ 
   get "/" do
-    "Hello world, it's #{Time.now} at the server!"
+    haml :index, :locals => {:content => Community.All}
   end
 
   get "/f" do
-    "#{Forum.All}"
+    haml :index, :locals => {:content => Forum.All}
+  end
+
+end
+
+class Community
+  def self.All
+    JSON.parse(File.read(File.join(C_ROOT, "index"))).to_json
   end
 end
 
 class Forum
   def self.All
-    f = Array.new
-    f << {A: 0}
-    f << {B: 0}
-    f.to_json
+    JSON.parse(File.read(File.join(C_ROOT, "f", "index"))).to_json
   end
 end
