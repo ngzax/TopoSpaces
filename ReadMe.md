@@ -37,20 +37,22 @@ Launch the server with this command:
 
 Now go to your browser and browse your new wiki:
 
-	http://localhost:8888
+	http://localhost:5000
 
-Running specs
-=============
+Running the Tests
+=================
 
-The test suite is written using RSpec 2 and utilizes Selenium heavily. You must have a recent version of Firefox installed to run the test suite.
+The test suite is written using Minitest. 
+I used watchr for continuous testing and have included it in the bundle 
+and added a pattern file in test/watcr.rb 
 
-To run an individual spec, run
+  gem install watchr
+  watchr test/watchr.rb
 
-  bundle exec rspec spec/[spec name].rb
+Now, when you touch any file it will run the all the tests.
 
-To run all specs, run
-
-  bundle exec rake spec
+To run all the tests manually, you can hit Ctrl-c at any time.
+Hitting Ctrl-c twice in a row will exit watchr.
 
 Looking For Code Bloat
 ======================
