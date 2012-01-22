@@ -31,6 +31,6 @@ Signal.trap 'INT' do
     Kernel.sleep 1.5
     @interrupted = false
     # raise Interrupt, nil # let the run loop catch it
-    run_suite
+    run_all_tests
   end
 end

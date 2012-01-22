@@ -21,50 +21,25 @@
 #  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 #  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-require "rubygems"
+require File.dirname(__FILE__) + '/test_helper'
 
-require "bundler/setup"
-require "haml"
-require "json"
-require "sinatra"
-
-C_ROOT = File.join(File.dirname(__FILE__), "community")
-
-class TopoSpace < Sinatra::Base
-
-  set :haml,   :format => :html5
-  set :static, true
- 
-  get "/" do
-    haml :index, :locals => {:content => Community.All}
+describe "random_string" do
+  before do
+    @r = random_string(8)
   end
 
-  get "/f" do
-    haml :index, :locals => {:content => Forum.All}
+  it "returns a random string sized according to the passed integer" do
+    @r.size.must_equal 8
   end
 
-end
-
-class Community
-  def self.All
-    JSON.parse(File.read(File.join(C_ROOT, "index"))).to_json
+  it "returns a random string of letters and numbers" do
+    @r.must_match /([A-Za-z0-9]{8})/
   end
 end
 
-class Forum
-  def self.All
-    JSON.parse(File.read(File.join(C_ROOT, "f", "index"))).to_json
+describe "random_name" do
+  it "returns a random string of letters and numbers followed by a hyphen and then 12 digits representing yyyyMMddHHMM" do
+    random_name.must_match /([A-Za-z0-9]{8})[-]([0-9]{12})/
   end
 end
 
-# ---------------------------------------------------------------------
-# Helper Methods
-# ---------------------------------------------------------------------
-def random_name
-  "#{random_string(8)}-#{DateTime.now.strftime('%G%m%d%H%M')}"
-end
-
-def random_string(length)
-  # http://stackoverflow.com/a/3572953/134495
-  (36**(length-1) + rand(36**length)).to_s(36)
-end
