@@ -5,6 +5,18 @@ Topo Spaces Goals
 How to Participate
 ==================
 
+Code contributions are always welcome. 
+We're developing using the `fork and pull request` model supported so well by GitHub. 
+Please read through their excellent help to make sure you know what's expected of you:
+
+* http://help.github.com/send-pull-requests/
+
+If you'd like to know what we think of your programming idea before you program it, just write up an Issue here on GitHub. 
+You're save us all some time if you read through open issues first:
+
+* [Open Issues](https://github.com/ngzax/TopoSpaces/issues?sort=created&direction=desc&state=open&page=1)
+
+We're proud to be forked frequently. Go ahead and fork this project now. We're glad to have you.
 
 Install and Launch
 ==================
@@ -53,13 +65,6 @@ Now, when you touch any file it will run the all the tests.
 
 To run all the tests manually, you can hit Ctrl-c at any time.
 Hitting Ctrl-c twice in a row will exit watchr.
-
-Looking For Code Bloat
-======================
-
-Try this command to see if any code files have grown unpleasantly large.
-
-	wc -l `find * | perl -ne 'next if /jquery/; print if /\.(rb|haml|sass|coffee)$/'` | sort -rgb
 
 License
 =======

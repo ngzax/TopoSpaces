@@ -28,7 +28,7 @@ require "haml"
 require "json"
 require "sinatra"
 
-C_ROOT = File.join(File.dirname(__FILE__), "community")
+C_ROOT = File.join(File.dirname(__FILE__), "c")
 
 class TopoSpace < Sinatra::Base
 
@@ -43,6 +43,18 @@ class TopoSpace < Sinatra::Base
     haml :index, :locals => {:content => Forum.All}
   end
 
+  post "/f" do
+    begin
+      n = File.join(C_ROOT, "f", random_name)
+      Dir.mkdir(n)
+      File.open(File.join(n, "index"), "w+") { |f|
+        forum = Forum.new(params[:name])
+        f.puts("#{forum}") 
+      }
+    rescue
+      return [500, "Forum Creation Failed."]
+    end
+  end
 end
 
 class Community
@@ -54,6 +66,18 @@ end
 class Forum
   def self.All
     JSON.parse(File.read(File.join(C_ROOT, "f", "index"))).to_json
+  end
+
+  def initialize(name)
+    @h = {:name => name}
+  end
+
+  def name
+    @h[:name]
+  end
+
+  def to_s
+    "{:forum=>#{@h}}"
   end
 end
 
