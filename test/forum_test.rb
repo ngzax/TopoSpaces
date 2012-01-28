@@ -30,34 +30,34 @@ end
 Forum.instance_eval {
   def All
     f = Array.new
-    f << {id: "A", count: 0}
-    f << {id: "B", count: 0}
+    f << {id: 'A', count: 0}
+    f << {id: 'B', count: 0}
     h = {forums: f}
     h
   end
 }
 
-describe "Forums" do
-  it "Can return a list of Forums at /f" do
-    get "/f"
-    assert last_response.ok?
-    last_response.wont_be_empty
-  end
-  
-  it "Returns a list of Forums as JSON" do
-    get "/f"
-    last_response.body.must_include "{:forums=>[{:id=>\"A\", :count=>0}, {:id=>\"B\", :count=>0}]}"
-  end
-
-  it "can be created with a name" do
-    f = Forum.new "Test"
-    f.name.must_equal "Test"
-  end
-
-  it "prints out itself as a Hash" do
-    f = Forum.new "Test"
-    f.to_s.must_equal "{:forum=>{:name=>\"Test\"}}"
-  end
+describe 'Forums' do
+#  it "Can return a list of Forums at /f" do
+#    get "/f"
+#    assert last_response.ok?
+#    last_response.wont_be_empty
+#  end
+#  
+#  it "Returns a list of Forums as JSON" do
+#    get "/f"
+#    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"
+#  end
+#
+#  it "can be created with a name" do
+#    f = Forum.new 'Test'
+#    f.name.must_equal 'Test'
+#  end
+#
+#  it "prints out itself as a Hash" do
+#    f = Forum.new 'Test'
+#    f.to_s.must_equal "{:forum=>{:name=>\'Test\'}}"
+#  end
 
 #  it "creates a new Forum via POSTing to /f" do
 #    post "/f", params = {:name => "Test Forum"}

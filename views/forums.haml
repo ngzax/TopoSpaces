@@ -2,6 +2,5 @@
   Forums
 - content['forums'].each do |f|
   %p
-    %a{:href => "/#{f['id']}"}
-      = f['id']
-    = " (topics = #{f['topic_count']})"
+    %a{:href => "#{request.path_info}/#{f['id']}"}= f['name']
+    = "(topics = #{f['topic_count']})"

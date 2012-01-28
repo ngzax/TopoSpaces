@@ -36,15 +36,15 @@ class TopoSpace < Sinatra::Base
   set :static, true
  
   get "/" do
-    haml :index, :locals => {:content => Community.All}
+    haml :communities, :locals => {:content => Community.All}
   end
 
   get "/:id" do
     haml :forums, :locals => {:content => Community.new(params[:id]).forums}
   end
 
-  get "/f" do
-    haml :index, :locals => {:content => Forum.All}
+  get "/:c_id/:f_id" do
+    haml :discussions, :locals => {:content => Forum.new(params[:f_id], params[:c_id]).discussions}
   end
 
   post "/f" do
@@ -76,14 +76,15 @@ class Community
 end
 
 class Forum
-  def self.All
-    JSON.parse(File.read(File.join(C_ROOT, "f", "index"))).to_json
+  def initialize(id, community_id)
+    @id = id
+    @c_id = community_id
   end
 
-  def initialize(name)
-    @h = {:name => name}
+  def discussions
+    JSON.parse(File.read(File.join(C_ROOT, @c_id, @id, "index")))
   end
-
+  
   def name
     @h[:name]
   end

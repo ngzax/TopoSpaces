@@ -23,22 +23,22 @@
 
 require File.dirname(__FILE__) + '/test_helper'
 
-describe "random_string" do
+describe "Random Strings" do
   before do
     @r = random_string(8)
   end
 
-  it "returns a random string sized according to the passed integer" do
+  it "can create a random string sized according to a passed integer" do
     @r.size.must_equal 8
   end
 
-  it "returns a random string of letters and numbers" do
+  it "can create a random string of letters and numbers" do
     @r.must_match /([A-Za-z0-9]{8})/
   end
 end
 
-describe "random_name" do
-  it "returns a random string of letters and numbers followed by a hyphen and then 12 digits representing yyyyMMddHHMM" do
+describe "Random Names" do
+  it "can create a random string of letters and numbers followed by a hyphen and then 12 digits representing yyyyMMddHHMM" do
     random_name.must_match /([A-Za-z0-9]{8})[-]([0-9]{12})/
   end
 end
