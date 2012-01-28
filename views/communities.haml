@@ -1,0 +1,5 @@
+%h1
+  Communities
+- content['communities'].each do |c|
+  %a{:href => "/#{c['id']}"}= c['name']
+  = "(#{c['forum_count']} forums)"

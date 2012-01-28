@@ -1,0 +1,7 @@
+%h1
+  Forums
+- content['forums'].each do |f|
+  %p
+    %a{:href => "/#{f['id']}"}
+      = f['id']
+    = " (topics = #{f['topic_count']})"
