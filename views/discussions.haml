@@ -1,9 +1,9 @@
-%h1
+%h3
   Discussions
 - if content['discussions'].empty?
   %h3 No discussions held yet on this Topic
 - else
   - content['discussions'].each do |d|
     %p
-      %a{:href => "#{request.path_info}/#{d['id']}"}= d['name']
+      %a{:href => "#{request.url}#{d['id']}/"}= d['name']
       = "(thoughts = #{d['thought_count']})"

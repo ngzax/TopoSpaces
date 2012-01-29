@@ -1,6 +1,37 @@
-Topo Spaces Goals
+TopoSpaces
 =============================
 
+*Topological spaces* are mathematical structures that allow the formal definition
+of concepts such as convergence, connectedness, and continuity. They appear in
+virtually every branch of modern mathematics and are a central unifying notion.
+
+The branch of mathematics that studies topological spaces in their own right is
+called *topology.*
+
+A topological space is a set X together with _T_, a collection of subsets of X,
+satisfying the following axioms:[1]
+
+The empty set and X are in <math>\tau</math>.
+_T_ is closed under arbitrary union.
+_T_ is closed under finite intersection.
+
+The collection _T_ is called a topology on X. The elements of X are usually called
+points, though they can be any mathematical objects. A topological space in
+which the points are functions is called a function space. The sets in are
+called the open sets, and their complements in X are called closed sets. A
+subset of X may be neither closed nor open, either closed or open, or both. A
+set that is both closed and open is called a clopen set.
+
+-- http://en.wikipedia.org/wiki/Topological_space
+
+A TopoSpace is a Community that allows the formal discussion of Ideas in a 
+federated structure that _you_ control allowing you to control who you allow
+into your Community.
+
+Goals
+=============================
+
+NOTE: This Project is still in the very experimental phase and may change drastically.
 
 How to Participate
 ==================

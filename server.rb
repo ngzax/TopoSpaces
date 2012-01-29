@@ -39,11 +39,11 @@ class TopoSpace < Sinatra::Base
     haml :communities, :locals => {:content => Community.All}
   end
 
-  get "/:id" do
+  get "/:id/" do
     haml :forums, :locals => {:content => Community.new(params[:id]).forums}
   end
 
-  get "/:c_id/:f_id" do
+  get "/:c_id/:f_id/" do
     haml :discussions, :locals => {:content => Forum.new(params[:f_id], params[:c_id]).discussions}
   end
 
@@ -91,6 +91,15 @@ class Forum
 
   def to_s
     "{:forum=>#{@h}}"
+  end
+end
+
+class TopoSet
+  attr_accessor :point_type
+  attr_reader :id
+
+  def initialize
+    @id = random_name
   end
 end
 

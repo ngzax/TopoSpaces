@@ -1,5 +1,9 @@
-%h1
+%h3
   Communities
-- content['communities'].each do |c|
-  %a{:href => "/#{c['id']}"}= c['name']
-  = "(#{c['forum_count']} forums)"
+- if content['communities'].empty?
+  %h3 No discussions held yet on this Topic
+- else
+  - content['communities'].each do |c|
+    %p
+      %a{:href => "#{request.url}#{c['id']}/"}= c['name']
+      = "(#{c['forum_count']} forums)"
