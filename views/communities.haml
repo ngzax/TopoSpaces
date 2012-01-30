@@ -1,9 +1,0 @@
-%h3
-  Communities
-- if content['communities'].empty?
-  %h3 No discussions held yet on this Topic
-- else
-  - content['communities'].each do |c|
-    %p
-      %a{:href => "#{request.url}#{c['id']}/"}= c['name']
-      = "(#{c['forum_count']} forums)"

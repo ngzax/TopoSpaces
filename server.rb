@@ -36,15 +36,15 @@ class TopoSpace < Sinatra::Base
   set :static, true
  
   get "/" do
-    haml :communities, :locals => {:content => Community.All}
+    haml :toposet, :locals => {:content => Community.All}
   end
 
   get "/:id/" do
-    haml :forums, :locals => {:content => Community.new(params[:id]).forums}
+    haml :toposet, :locals => {:content => Community.new(params[:id]).forums}
   end
 
   get "/:c_id/:f_id/" do
-    haml :discussions, :locals => {:content => Forum.new(params[:f_id], params[:c_id]).discussions}
+    haml :toposet, :locals => {:content => Forum.new(params[:f_id], params[:c_id]).discussions}
   end
 
   post "/f" do
@@ -66,8 +66,8 @@ class Community
     JSON.parse(File.read(File.join(C_ROOT, "index")))
   end
   
-  def initialize(id)
-    @id = id
+  def initialize(id = nil)
+    @id = id.nil? ? random_name : id
   end
 
   def forums
@@ -95,11 +95,20 @@ class Forum
 end
 
 class TopoSet
-  attr_accessor :point_type
-  attr_reader :id
+  attr_accessor :name, :point_type
+  attr_reader :id, :point_count
 
   def initialize
     @id = random_name
+    @points = Array.new
+  end
+
+  def add_point(a_point)
+    @points << a_point
+  end
+
+  def point_count
+    @points.size
   end
 end
 

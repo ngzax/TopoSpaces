@@ -1,0 +1,9 @@
+%h3
+  = content['point_type']
+- if content['points'].empty?
+  %h3= "No #{content['point_type']} in this TopoSet."
+- else
+  - content['points'].each do |p|
+    %p
+      %a{:href => "#{request.url}#{p['id']}/"}= p['name']
+      = "(#{p['point_count']} #{p['point_type']})"

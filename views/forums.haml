@@ -1,9 +1,0 @@
-%h3
-  Forums
-- if content['forums'].empty?
-  %h3 No discussions held yet on this Topic
-- else
-  - content['forums'].each do |f|
-    %p
-      %a{:href => "#{request.url}#{f['id']}/"}= f['name']
-      = "(#{f['topic_count']} topics)"

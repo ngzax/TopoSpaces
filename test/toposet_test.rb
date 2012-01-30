@@ -48,26 +48,21 @@ describe 'TopoSet' do
     @t.point_type = 'Community'
     @t.point_type.must_equal 'Community'
   end
-#  
-#  it "Returns a list of Forums as JSON" do
-#    get "/f"
-#    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"
-#  end
-#
-#  it "can be created with a name" do
-#    f = Forum.new 'Test'
-#    f.name.must_equal 'Test'
-#  end
-#
-#  it "prints out itself as a Hash" do
-#    f = Forum.new 'Test'
-#    f.to_s.must_equal "{:forum=>{:name=>\'Test\'}}"
-#  end
 
-#  it "creates a new Forum via POSTing to /f" do
-#    post "/f", params = {:name => "Test Forum"}
-#    assert last_response.ok?
-#  end
+  it "counts the number of point in the TopoSet" do
+    @t.point_count.must_equal 0
+    @t.add_point(Community.new)
+    @t.point_count.must_equal 1
+  end
 
+  it "is not allowed to write to the point_count" do
+    set_pc = lambda { @t.point_count = 5 }
+    set_pc.must_raise NoMethodError 
+  end
+
+  it "can be given a human readable name" do
+    @t.name = 'a TopoSpace'
+    @t.name.must_equal 'a TopoSpace'
+  end
 end
 
