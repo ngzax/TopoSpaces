@@ -28,7 +28,7 @@ require "haml"
 require "json"
 require "sinatra"
 
-C_ROOT = File.join(File.dirname(__FILE__), "c")
+C_ROOT = File.join(File.dirname(__FILE__), "test/fixtures")
 
 class TopoSpace < Sinatra::Base
 
