@@ -27,18 +27,18 @@ def app
   TopoSpaces
 end
 
-describe 'Forums' do
-  it "must be created as part of a Community" do
-    f_create = lambda {Forum.new}
-    f_create.must_raise ArgumentError
+describe 'Communities' do
+  it "must be created as part of a TopoSpace" do
+    c_create = lambda {Community.new}
+    c_create.must_raise ArgumentError
 
-    f_create = lambda {Forum.new("a Fake Community")}
-    f_create.must_raise ArgumentError
+    c_create = lambda {Community.new("a Fake TopoSpace")}
+    c_create.must_raise ArgumentError
   end
   
   it "is a type of TopoSet" do
-    f = Forum.new(Community.new(TopoSpace.new))
-    f.class.must_equal Forum
+    f = Community.new(TopoSpace.new)
+    f.class.must_equal Community
   end
   
 #  it "Returns a list of Forums as JSON" do

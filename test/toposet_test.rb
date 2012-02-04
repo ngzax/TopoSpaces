@@ -24,13 +24,13 @@
 require File.dirname(__FILE__) + '/test_helper'
 
 def app
-  TopoSpace
+  TopoSpaces
 end
 
 #
 # These are the tests for the TopoSpace class
 #
-describe 'TopoSet' do
+describe 'TopoSets' do
   before do
     @t = TopoSet.new
   end
@@ -51,7 +51,7 @@ describe 'TopoSet' do
 
   it "counts the number of point in the TopoSet" do
     @t.point_count.must_equal 0
-    @t.add_point(Community.new)
+    @t.add_point(Community.new(TopoSpace.new))
     @t.point_count.must_equal 1
   end
 

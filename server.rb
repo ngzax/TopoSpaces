@@ -30,7 +30,7 @@ require "sinatra"
 
 C_ROOT = File.join(File.dirname(__FILE__), "test/fixtures")
 
-class TopoSpace < Sinatra::Base
+class TopoSpaces < Sinatra::Base
 
   set :haml,   :format => :html5
   set :static, true
@@ -61,26 +61,6 @@ class TopoSpace < Sinatra::Base
   end
 end
 
-class Forum
-  def initialize(a_community)
-    @id = random_name
-    raise ArgumentError if !(a_community.kind_of? Community)
-    @c_id = a_community.id
-  end
-
-  def discussions
-    JSON.parse(File.read(File.join(C_ROOT, @c_id, @id, "index")))
-  end
-  
-  def name
-    @h[:name]
-  end
-
-  def to_s
-    "{:forum=>#{@h}}"
-  end
-end
-
 class TopoSet
   attr_accessor :name, :point_type
   attr_reader :id, :point_count
@@ -107,13 +87,44 @@ class Community < TopoSet
     JSON.parse(File.read(File.join(C_ROOT, "index")))
   end
   
-  def initialize
+  def initialize(a_topospace)
     @id = random_name
+    raise ArgumentError if !(a_topospace.kind_of? TopoSpace)
+    @parent = a_topospace.id
   end
 
   def forums
     JSON.parse(File.read(File.join(C_ROOT, @id, "index")))
   end
+end
+
+# ---------------------------------------------------------------------
+# A Forum is a TopoSet of Thoughts
+# ---------------------------------------------------------------------
+class Forum
+  def initialize(a_community)
+    @id = random_name
+    raise ArgumentError if !(a_community.kind_of? Community)
+    @c_id = a_community.id
+  end
+
+  def discussions
+    JSON.parse(File.read(File.join(C_ROOT, @c_id, @id, "index")))
+  end
+  
+  def name
+    @h[:name]
+  end
+
+  def to_s
+    "{:forum=>#{@h}}"
+  end
+end
+
+# ---------------------------------------------------------------------
+# A TopoSpace is a TopoSet of Communities
+# ---------------------------------------------------------------------
+class TopoSpace < TopoSet
 end
 
 # ---------------------------------------------------------------------
