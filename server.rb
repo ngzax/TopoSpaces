@@ -61,24 +61,11 @@ class TopoSpace < Sinatra::Base
   end
 end
 
-class Community
-  def self.All
-    JSON.parse(File.read(File.join(C_ROOT, "index")))
-  end
-  
-  def initialize(id = nil)
-    @id = id.nil? ? random_name : id
-  end
-
-  def forums
-    JSON.parse(File.read(File.join(C_ROOT, @id, "index")))
-  end
-end
-
 class Forum
-  def initialize(id, community_id)
-    @id = id
-    @c_id = community_id
+  def initialize(a_community)
+    @id = random_name
+    raise ArgumentError if !(a_community.kind_of? Community)
+    @c_id = a_community.id
   end
 
   def discussions
@@ -109,6 +96,23 @@ class TopoSet
 
   def point_count
     @points.size
+  end
+end
+
+# ---------------------------------------------------------------------
+# A Community is a TopoSet of Topics
+# ---------------------------------------------------------------------
+class Community < TopoSet
+  def self.All
+    JSON.parse(File.read(File.join(C_ROOT, "index")))
+  end
+  
+  def initialize
+    @id = random_name
+  end
+
+  def forums
+    JSON.parse(File.read(File.join(C_ROOT, @id, "index")))
   end
 end
 

@@ -27,23 +27,20 @@ def app
   TopoSpace
 end
 
-Forum.instance_eval {
-  def All
-    f = Array.new
-    f << {id: 'A', count: 0}
-    f << {id: 'B', count: 0}
-    h = {forums: f}
-    h
-  end
-}
-
 describe 'Forums' do
-#  it "Can return a list of Forums at /f" do
-#    get "/f"
-#    assert last_response.ok?
-#    last_response.wont_be_empty
-#  end
-#  
+  it "must be created as part of a Community" do
+    f_create = lambda {Forum.new}
+    f_create.must_raise ArgumentError
+
+    f_create = lambda {Forum.new("a Fake Community")}
+    f_create.must_raise ArgumentError
+  end
+  
+  it "is a type of TopoSet" do
+    f = Forum.new(Community.new)
+    f.class.must_equal Forum
+  end
+  
 #  it "Returns a list of Forums as JSON" do
 #    get "/f"
 #    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"

@@ -9,9 +9,6 @@ gem "sass"
 gem "sinatra", '1.2.6'
 gem "thin"
 
-# gem "RubyInline"
-# gem "rest-client"
-
 group :development do
   gem "annotate"
   gem 'ruby-debug', :require => 'ruby-debug', :platform => :mri_18
