@@ -28,7 +28,7 @@ def app
 end
 
 #
-# These are the tests for the TopoSpace class
+# These are the tests for the TopoSet class
 #
 describe 'TopoSets' do
   before do
@@ -45,8 +45,8 @@ describe 'TopoSets' do
   end
 
   it "can store the type of points in the TopoSet" do
-    @t.point_type = 'Community'
-    @t.point_type.must_equal 'Community'
+    @t.point_type = Community
+    @t.point_type.must_equal Community
   end
 
   it "counts the number of point in the TopoSet" do
@@ -64,5 +64,9 @@ describe 'TopoSets' do
     @t.name = 'a TopoSpace'
     @t.name.must_equal 'a TopoSpace'
   end
+
+#  it "has a connection back to its root TopoSpace" do
+#    @t.root_space.wont_be_nil
+#  end
 end
 

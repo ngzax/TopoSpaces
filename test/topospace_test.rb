@@ -27,52 +27,31 @@ def app
   TopoSpaces
 end
 
-describe 'Forums' do
+describe 'TopoSpace Class' do
   before do
-    @ts = TopoSpace.new
-    @c = Community.new(@ts)
-    @f = Forum.new(@c)
-  end
-
-  it "can be initially created using plain new without a Community" do
-    f_create = lambda {Forum.new}
-    f_create.must_be_silent
-  end
-
-  it "has a Random Name as its Id when created without an id" do
-    @f.id.must_match /([A-Za-z0-9]{8})[-]([0-9]{12})/
-  end
-
-  it "can be initially created with an id if you know an existing id" do
-    f_create = lambda {Forum.new(Community.new(TopoSpace.new, "sdft76bn-201201252121"), "ky418efr-201201262122")}
-    f_create.must_be_silent
+    @t = TopoSpace.new
   end
 
   it "is a type of TopoSet" do
-    f = Forum.new(Community.new(TopoSpace.new))
-    f.class.must_equal Forum
-    f.class.superclass.must_equal TopoSet
+    @t.class.must_equal TopoSpace
+    @t.class.superclass.must_equal TopoSet
   end
-  
-#  it "Returns a list of Forums as JSON" do
-#    get "/f"
-#    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"
-#  end
-#
-#  it "can be created with a name" do
-#    f = Forum.new 'Test'
-#    f.name.must_equal 'Test'
-#  end
-#
-#  it "prints out itself as a Hash" do
-#    f = Forum.new 'Test'
-#    f.to_s.must_equal "{:forum=>{:name=>\'Test\'}}"
-#  end
 
-#  it "creates a new Forum via POSTing to /f" do
-#    post "/f", params = {:name => "Test Forum"}
-#    assert last_response.ok?
-#  end
+  it "has a collection of Communities, intially empty" do
+    @t.communities.must_be_empty
+  end
 
+  it "can have communities added to it" do
+    @t << Community.new
+    @t.communities.wont_be_empty
+  end
+
+  it "has a document root where its definitions is persisted" do
+    @t.docroot.must_equal "#{File.join(File.dirname(__FILE__))}/fixtures"
+  end
+
+  it "can load itself from its persistence store" do
+    @t.load.wont_be_empty
+    end
 end
 

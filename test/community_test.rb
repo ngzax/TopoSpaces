@@ -28,19 +28,46 @@ def app
 end
 
 describe 'Communities' do
-  it "must be created as part of a TopoSpace" do
-    c_create = lambda {Community.new}
-    c_create.must_raise ArgumentError
+  before do
+    @ts = TopoSpace.new
+    @c = Community.new(@ts)
+  end
 
-    c_create = lambda {Community.new("a Fake TopoSpace")}
-    c_create.must_raise ArgumentError
+  it "can be initially created using plain new without a TopoSpace" do
+    c_create = lambda {Community.new}
+    c_create.must_be_silent
+  end
+
+  it "has a Random Name as its Id when created without an id" do
+    @c.id.must_match /([A-Za-z0-9]{8})[-]([0-9]{12})/
+  end
+
+  it "can be initially created with an id if you know an existing id" do
+    c_create = lambda {Community.new(nil, "sdft76bn-201201252121")}
+    c_create.must_be_silent
+  end
+
+  it "can be initially created as part of a TopoSpace" do
+    c_create = lambda {@c1 = Community.new(@ts)}
+    c_create.must_be_silent
+    @c1.parent.must_be_same_as @ts
   end
   
   it "is a type of TopoSet" do
-    f = Community.new(TopoSpace.new)
-    f.class.must_equal Community
+    @c.class.must_equal Community
+    @c.class.superclass.must_equal TopoSet
   end
   
+  it "has a connection back to its parent TopoSpace" do
+    @c.parent.wont_be_nil
+    @c.parent.must_be_same_as @ts
+  end
+
+#  it "can be loaded directly if you already know the id" do
+#    c = Community.find("sdft76bn-201201252121")
+#    c.wont_be_nil
+#  end
+#
 #  it "Returns a list of Forums as JSON" do
 #    get "/f"
 #    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"

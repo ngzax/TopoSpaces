@@ -28,28 +28,26 @@ require "haml"
 require "json"
 require "sinatra"
 
-C_ROOT = File.join(File.dirname(__FILE__), "test/fixtures")
-
 class TopoSpaces < Sinatra::Base
 
   set :haml,   :format => :html5
   set :static, true
- 
+
   get "/" do
-    haml :toposet, :locals => {:content => Community.All}
+    haml :toposet, :locals => {:content => TopoSpace.new.load}
   end
 
   get "/:id/" do
-    haml :toposet, :locals => {:content => Community.new(params[:id]).forums}
+    haml :toposet, :locals => {:content => Community.new(TopoSpace.new, params[:id]).forums}
   end
 
   get "/:c_id/:f_id/" do
-    haml :toposet, :locals => {:content => Forum.new(params[:f_id], params[:c_id]).discussions}
+    haml :toposet, :locals => {:content => Forum.new(Community.new(TopoSpace.new, params[:c_id]), params[:f_id]).discussions}
   end
 
   post "/f" do
     begin
-      n = File.join(C_ROOT, "f", random_name)
+      n = File.join(@@C_ROOT, "f", random_name)
       Dir.mkdir(n)
       File.open(File.join(n, "index"), "w+") { |f|
         forum = Forum.new(params[:name])
@@ -63,7 +61,7 @@ end
 
 class TopoSet
   attr_accessor :name, :point_type
-  attr_reader :id, :point_count
+  attr_reader :id, :point_count, :root_space
 
   def initialize
     @id = random_name
@@ -83,41 +81,39 @@ end
 # A Community is a TopoSet of Topics
 # ---------------------------------------------------------------------
 class Community < TopoSet
-  def self.All
-    JSON.parse(File.read(File.join(C_ROOT, "index")))
-  end
+  attr_accessor :parent
   
-  def initialize(a_topospace)
-    @id = random_name
+  def initialize(a_topospace = nil, an_id = nil)
+    @id = an_id || random_name
+    return if a_topospace.nil?
     raise ArgumentError if !(a_topospace.kind_of? TopoSpace)
-    @parent = a_topospace.id
+    self.parent = a_topospace
+  end
+
+  def find(an_id)
+    @id = an_id
   end
 
   def forums
-    JSON.parse(File.read(File.join(C_ROOT, @id, "index")))
+    JSON.parse(File.read(File.join(self.parent.docroot, @id, "index")))
   end
 end
 
 # ---------------------------------------------------------------------
 # A Forum is a TopoSet of Thoughts
 # ---------------------------------------------------------------------
-class Forum
-  def initialize(a_community)
-    @id = random_name
+class Forum < TopoSet
+  attr_accessor :parent
+  
+  def initialize(a_community = nil, an_id = nil)
+    @id = an_id || random_name
+    return if a_community.nil?
     raise ArgumentError if !(a_community.kind_of? Community)
-    @c_id = a_community.id
+    self.parent = a_community
   end
 
   def discussions
-    JSON.parse(File.read(File.join(C_ROOT, @c_id, @id, "index")))
-  end
-  
-  def name
-    @h[:name]
-  end
-
-  def to_s
-    "{:forum=>#{@h}}"
+    JSON.parse(File.read(File.join(self.parent.parent.docroot, self.parent.id, @id, "index")))
   end
 end
 
@@ -125,6 +121,25 @@ end
 # A TopoSpace is a TopoSet of Communities
 # ---------------------------------------------------------------------
 class TopoSpace < TopoSet
+ 
+  @@C_ROOT = File.join(File.dirname(__FILE__), "test/fixtures")
+
+  def << a_point
+    @points << a_point
+  end
+
+  def communities
+    @points
+  end
+  
+  def docroot
+    @@C_ROOT
+  end
+
+  def load
+    JSON.parse(File.read(File.join(self.docroot, "index")))
+  end
+  
 end
 
 # ---------------------------------------------------------------------
