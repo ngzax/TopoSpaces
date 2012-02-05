@@ -74,8 +74,11 @@ class TopoSpaces < Sinatra::Base
   end
 end
 
+# ---------------------------------------------------------------------
+# A TopoSet is a typed collection of Points
+# ---------------------------------------------------------------------
 class TopoSet
-  attr_accessor :name, :point_type
+  attr_accessor :name, :parent, :point_type
   attr_reader :id, :point_count, :root_space
 
   def initialize
@@ -96,7 +99,6 @@ end
 # A Community is a TopoSet of Topics
 # ---------------------------------------------------------------------
 class Community < TopoSet
-  attr_accessor :parent
   
   def initialize(a_topospace = nil, an_id = nil)
     @id = an_id || random_name
@@ -118,7 +120,6 @@ end
 # A Forum is a TopoSet of Thoughts
 # ---------------------------------------------------------------------
 class Forum < TopoSet
-  attr_accessor :parent
   
   def initialize(a_community = nil, an_id = nil)
     @id = an_id || random_name
