@@ -37,9 +37,9 @@ describe 'TopoSpace Class' do
     @t.class.superclass.must_equal TopoSet
   end
 
-  it "has a collection of Communities, intially empty" do
-    @t.communities.must_be_empty
-  end
+#  it "has a collection of Communities, intially empty" do
+#    @t.communities.must_be_empty
+#  end
 
   it "can have communities added to it" do
     @t << Community.new
@@ -50,8 +50,8 @@ describe 'TopoSpace Class' do
     @t.docroot.must_equal "#{File.join(File.dirname(__FILE__))}/fixtures"
   end
 
-  it "can load itself from its persistence store" do
-    @t.load.wont_be_empty
-    end
+#  it "can load itself from its persistence store" do
+#    @t.load.wont_be_empty
+#    end
 end
 

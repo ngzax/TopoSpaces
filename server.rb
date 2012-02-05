@@ -33,16 +33,31 @@ class TopoSpaces < Sinatra::Base
   set :haml,   :format => :html5
   set :static, true
 
+  # --------------------------------------------------------------------
+  # Filters
+  # --------------------------------------------------------------------
+  before do
+    @t = TopoSpace.new
+  end
+
+  before "/:id/*" do
+    @c = Community.new(@t, params[:id]) 
+  end
+
+  # --------------------------------------------------------------------
+  # Routes
+  # --------------------------------------------------------------------
   get "/" do
-    haml :toposet, :locals => {:content => TopoSpace.new.load}
+    haml :toposet, :locals => {:content => @t.communities}
   end
 
   get "/:id/" do
-    haml :toposet, :locals => {:content => Community.new(TopoSpace.new, params[:id]).forums}
+    haml :toposet, :locals => {:content => @c.forums}
   end
 
-  get "/:c_id/:f_id/" do
-    haml :toposet, :locals => {:content => Forum.new(Community.new(TopoSpace.new, params[:c_id]), params[:f_id]).discussions}
+  get "/:id/:f_id/" do
+    f = Forum.new(@c, params[:f_id])
+    haml :toposet, :locals => {:content => f.discussions}
   end
 
   post "/f" do
@@ -129,17 +144,12 @@ class TopoSpace < TopoSet
   end
 
   def communities
-    @points
+    JSON.parse(File.read(File.join(self.docroot, "index")))
   end
   
   def docroot
     @@C_ROOT
   end
-
-  def load
-    JSON.parse(File.read(File.join(self.docroot, "index")))
-  end
-  
 end
 
 # ---------------------------------------------------------------------
