@@ -32,14 +32,14 @@ describe 'TopoSpace Class' do
     @t = TopoSpace.new
   end
 
-  it "is a type of TopoSet" do
+  it "is itself a type of TopoSet" do
     @t.class.must_equal TopoSpace
     @t.class.superclass.must_equal TopoSet
   end
 
-#  it "has a collection of Communities, intially empty" do
-#    @t.communities.must_be_empty
-#  end
+  it "has a collection of Communities, intially empty" do
+    @t.communities.must_be_empty
+  end
 
   it "can have communities added to it" do
     @t << Community.new
@@ -47,6 +47,7 @@ describe 'TopoSpace Class' do
   end
 
   it "has a document root where its definitions is persisted" do
+    @t.docroot = File.join(File.dirname(__FILE__), "/fixtures")
     @t.docroot.must_equal "#{File.join(File.dirname(__FILE__))}/fixtures"
   end
 

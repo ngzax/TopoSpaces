@@ -38,6 +38,7 @@ class TopoSpaces < Sinatra::Base
   # --------------------------------------------------------------------
   before do
     @t = TopoSpace.new
+    @t.docroot = File.join(File.dirname(__FILE__), "/test/fixtures")
   end
 
   before "/:id/*" do
@@ -131,6 +132,7 @@ class Forum < TopoSet
   def discussions
     JSON.parse(File.read(File.join(self.parent.parent.docroot, self.parent.id, @id, "index")))
   end
+
 end
 
 # ---------------------------------------------------------------------
@@ -138,19 +140,25 @@ end
 # ---------------------------------------------------------------------
 class TopoSpace < TopoSet
  
-  @@C_ROOT = File.join(File.dirname(__FILE__), "test/fixtures")
-
   def << a_point
     @points << a_point
   end
 
   def communities
-    JSON.parse(File.read(File.join(self.docroot, "index")))
+    if docroot
+      return JSON.parse(File.read(File.join(self.docroot, "index")))
+    end
+    @points
   end
   
   def docroot
-    @@C_ROOT
+    @C_ROOT
   end
+
+  def docroot= a_path
+    @C_ROOT = a_path
+  end
+
 end
 
 # ---------------------------------------------------------------------
