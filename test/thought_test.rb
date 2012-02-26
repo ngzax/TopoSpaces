@@ -39,6 +39,12 @@ describe 'Thoughts' do
     t.class.must_equal Thought
     t.class.superclass.wont_equal TopoSet
   end
-  
+
+  it "can have a body which contains the text of the Thought" do
+    t = Thought.new
+    t.body = "This is a test"
+    t.body.must_equal "This is a test"
+  end
+
 end
 

@@ -58,7 +58,7 @@ class TopoSpaces < Sinatra::Base
 
   get "/:id/:f_id/" do
     f = Forum.new(@c, params[:f_id])
-    haml :toposet, :locals => {:content => f.discussions}
+    haml :toposet, :locals => {:content => f.thoughts}
   end
 
   post "/f" do
@@ -82,8 +82,8 @@ class TopoSet
   attr_accessor :name, :parent, :point_type
   attr_reader :id, :point_count, :root_space
 
-  def initialize
-    @id = random_name
+  def initialize(an_id = nil)
+    @id = an_id || random_name
     @points = Array.new
   end
 
@@ -102,7 +102,7 @@ end
 class Community < TopoSet
   
   def initialize(a_topospace = nil, an_id = nil)
-    @id = an_id || random_name
+    super(an_id)
     return if a_topospace.nil?
     raise ArgumentError if !(a_topospace.kind_of? TopoSpace)
     self.parent = a_topospace
@@ -123,14 +123,15 @@ end
 class Forum < TopoSet
   
   def initialize(a_community = nil, an_id = nil)
-    @id = an_id || random_name
+    super(an_id)
     return if a_community.nil?
     raise ArgumentError if !(a_community.kind_of? Community)
     self.parent = a_community
   end
 
-  def discussions
-    JSON.parse(File.read(File.join(self.parent.parent.docroot, self.parent.id, @id, "index")))
+  def thoughts
+    @points
+    #JSON.parse(File.read(File.join(self.parent.parent.docroot, self.parent.id, @id, "index")))
   end
 
 end

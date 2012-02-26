@@ -53,7 +53,13 @@ describe 'Forums' do
     f.class.must_equal Forum
     f.class.superclass.must_equal TopoSet
   end
-  
+
+  it "has a collection of thoughts which is initially empty" do
+    @f.thoughts.must_be_empty
+    @f.thoughts << Thought.new
+    @f.thoughts.wont_be_empty
+  end
+
 #  it "Returns a list of Forums as JSON" do
 #    get "/f"
 #    last_response.body.must_include "{'forums':[{'id':'A', 'count':0},{'id':'B','count':0}]}"
