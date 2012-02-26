@@ -136,6 +136,13 @@ class Forum < TopoSet
 end
 
 # ---------------------------------------------------------------------
+# A Thought is a single, short expression of an idea
+# ---------------------------------------------------------------------
+class Thought
+  attr_accessor :body
+end
+
+# ---------------------------------------------------------------------
 # A TopoSpace is a TopoSet of Communities
 # ---------------------------------------------------------------------
 class TopoSpace < TopoSet

@@ -21,24 +21,24 @@
 #  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 #  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Bundler.require :test
+require File.dirname(__FILE__) + '/test_helper'
 
-include Rack::Test::Methods
+def app
+  TopoSpaces
+end
 
-ENV['RACK_ENV'] = 'test'
+describe 'Thoughts' do
+  before do
+    @ts = TopoSpace.new
+    @c = Community.new(@ts)
+    @f = Forum.new(@c)
+  end
 
-require File.expand_path(File.join(File.dirname(__FILE__), "../server"))
+  it "is NOT a type of TopoSet" do
+    t = Thought.new
+    t.class.must_equal Thought
+    t.class.superclass.wont_equal TopoSet
+  end
+  
+end
 
-require 'minitest/spec'
-require 'minitest/autorun'
-
-# This is for RubyMine
-#require 'minitest/reporters'
-#MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-#if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-#elsif ENV['TM_PID']
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
-#else
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
-#end
