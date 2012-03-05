@@ -28,6 +28,8 @@ require "haml"
 require "json"
 require "sinatra"
 
+require File.dirname(__FILE__) + '/thought'
+
 class TopoSpaces < Sinatra::Base
 
   set :haml,   :format => :html5
@@ -100,7 +102,7 @@ end
 # A Community is a TopoSet of Topics
 # ---------------------------------------------------------------------
 class Community < TopoSet
-  
+
   def initialize(a_topospace = nil, an_id = nil)
     super(an_id)
     return if a_topospace.nil?
@@ -121,7 +123,7 @@ end
 # A Forum is a TopoSet of Thoughts
 # ---------------------------------------------------------------------
 class Forum < TopoSet
-  
+
   def initialize(a_community = nil, an_id = nil)
     super(an_id)
     return if a_community.nil?
@@ -137,17 +139,10 @@ class Forum < TopoSet
 end
 
 # ---------------------------------------------------------------------
-# A Thought is a single, short expression of an idea
-# ---------------------------------------------------------------------
-class Thought
-  attr_accessor :body
-end
-
-# ---------------------------------------------------------------------
 # A TopoSpace is a TopoSet of Communities
 # ---------------------------------------------------------------------
 class TopoSpace < TopoSet
- 
+
   def << a_point
     @points << a_point
   end
@@ -158,7 +153,7 @@ class TopoSpace < TopoSet
     end
     @points
   end
-  
+
   def docroot
     @C_ROOT
   end
