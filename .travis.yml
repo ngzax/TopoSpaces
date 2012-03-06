@@ -4,5 +4,6 @@ rvm:
 
 before_script:
   - "psql -c 'create database ts_dev;' -U postgres"
+  - "sequel -m migrations postgres://127.0.0.1/ts_dev"
 
 script: bundle exec rake test
