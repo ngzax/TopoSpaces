@@ -21,24 +21,14 @@
 #  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 #  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-Bundler.require :test
-
-include Rack::Test::Methods
-
-ENV['RACK_ENV'] = 'test'
+Bundler.require :test  if defined?(Bundler)
 
 require File.expand_path(File.join(File.dirname(__FILE__), "../server"))
 
 require 'minitest/spec'
 require 'minitest/autorun'
 
-# This is for RubyMine
-#require 'minitest/reporters'
-#MiniTest::Unit.runner = MiniTest::SuiteRunner.new
-#if ENV["RM_INFO"] || ENV["TEAMCITY_VERSION"]
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMineReporter.new
-#elsif ENV['TM_PID']
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::RubyMateReporter.new
-#else
-#  MiniTest::Unit.runner.reporters << MiniTest::Reporters::ProgressReporter.new
-#end
+include Rack::Test::Methods
+
+ENV['RACK_ENV'] = 'test'
+
