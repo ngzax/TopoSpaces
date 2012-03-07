@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="PostgreSQL" version="42" database="PostgreSQL" >
+	<schema name="public" catalogname="ts_dev" schemaname="public" defo="y" >
+		<table name="communities" >
+			<column name="id" type="serial" length="4" jt="4" mandatory="y" />
+			<column name="name" type="text" jt="12" mandatory="y" />
+			<column name="dt" type="timestamp" length="8" decimal="6" jt="93" mandatory="y" />
+			<index name="communities_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="communities_name_key" unique="UNIQUE" >
+				<column name="name" />
+			</index>
+		</table>
+		<table name="forums" >
+			<column name="id" type="serial" length="4" jt="4" mandatory="y" />
+			<column name="name" type="text" jt="12" mandatory="y" />
+			<column name="dt" type="timestamp" length="8" decimal="6" jt="93" mandatory="y" />
+			<column name="community_id" type="int4" length="4" jt="4" mandatory="y" />
+			<index name="forums_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="forums_name_key" unique="UNIQUE" >
+				<column name="name" />
+			</index>
+			<fk name="forums_community_id_fkey" to_schema="public" to_table="communities" >
+				<fk_column name="community_id" pk="id" />
+			</fk>
+		</table>
+		<table name="schema_info" >
+			<column name="version" type="int4" length="4" jt="4" mandatory="y" >
+				<defo>0</defo>
+			</column>
+		</table>
+		<table name="thoughts" >
+			<column name="name" type="text" jt="12" mandatory="y" />
+			<column name="dt" type="timestamp" length="8" decimal="6" jt="93" mandatory="y" />
+			<column name="body" type="text" jt="12" mandatory="y" />
+			<column name="id" type="serial" length="4" jt="4" mandatory="y" />
+			<column name="forum_id" type="int4" length="4" jt="4" mandatory="y" />
+			<index name="thoughts_name_key" unique="PRIMARY_KEY" >
+				<column name="name" />
+			</index>
+			<index name="thoughts_pkey" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<fk name="thoughts_forum_id_fkey" to_schema="public" to_table="forums" >
+				<fk_column name="forum_id" pk="id" />
+			</fk>
+		</table>
+		<sequence name="communities_id_seq" start="1" />
+		<sequence name="forums_id_seq" start="1" />
+		<sequence name="thoughts_id_seq" start="1" />
+	</schema>
+	<connector name="TopoSpaces" database="PostgreSQL" driver_class="org.postgresql.Driver" driver_jar="postgresql-8.4-701.jdbc3.jar" host="localhost" port="5432" instance="ts_dev" user="ngzax" schema_mapping="" />
+	<layout name="public" >
+		<entity schema="public" name="communities" x="308" y="112" />
+		<entity schema="public" name="forums" x="308" y="294" />
+		<entity schema="public" name="schema_info" x="42" y="42" />
+		<entity schema="public" name="thoughts" x="308" y="490" />
+	</layout>
+</project>

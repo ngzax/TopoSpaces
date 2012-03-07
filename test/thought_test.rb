@@ -23,9 +23,9 @@
 
 require File.dirname(__FILE__) + '/test_helper'
 
-def app
-  TopoSpaces
-end
+#def app
+#  TopoSpaces
+#end
 
 describe 'Thoughts' do
   before do
