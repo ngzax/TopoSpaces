@@ -1,6 +1,6 @@
 source :rubygems
 
-gem 'postgres'
+gem 'pg'
 gem 'sequel'
 
 gem 'foreman'
