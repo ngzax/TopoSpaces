@@ -1,25 +1,24 @@
 Sequel.migration do
   up do
     create_table(:communities) do
-      String   :name, :null => false, :primary_key => true, :size => 8
+      primary_key :id
+      String   :name, :null => false, :size => 8
       DateTime :dt,   :null => false
     end
 
     create_table(:forums) do
+      primary_key :id
       String   :name, :null => false, :primary_key => true, :size => 8
       DateTime :dt, :null => false
-      String   :community_name, :null => false, :size => 8
-
-      foreign_key :community_name, :communities, :null => false
+      foreign_key :community_id, :communities, :null => false
     end
 
     create_table(:thoughts) do
+      primary_key :id
       String   :name, :null => false, :primary_key => true, :size => 8
       DateTime :dt,   :null => false
       String   :body, :null => false, :text => true
-      String   :forum_name, :null => false, :size => 8
-
-      foreign_key :forum_name, :forums,  :null => false
+      foreign_key :forum_id, :forums,  :null => false
     end
   end
   
