@@ -1,7 +1,7 @@
 Sequel.migration do
   up do
     create_table(:communities) do
-      String   :name, :null => false, :size => 8
+      String   :name, :null => false, :primary_key => true, :size => 8
       DateTime :dt,   :null => false
     end
 
